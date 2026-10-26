@@ -35,7 +35,7 @@ target/tools/dsdgen: check-env
 	# apply patches to both source code and templates
 	cd $(TPCDS_HOME) && cat *.patch | patch -p1
 	test -d target/tools/ || (cd target; cp -r $(TPCDS_HOME)/tools tools)
-	cd target/tools; make clean; make
+	cd target/tools; make clean; make LINUX_CFLAGS="-g -Wall -fcommon"
 
 check-env:
 ifndef TPCDS_HOME
