@@ -160,7 +160,7 @@ def transcode(args):
         session_builder.config("spark.sql.catalogImplementation", "hive")
     if args.hive:
         session_builder.enableHiveSupport()
-    session = session_builder.appName(f"NDS - transcode - {args.output_format}").getOrCreate()
+    session = session_builder.appName(f"{args.app_name}").getOrCreate()
     if args.hive:
         session.sql(f"CREATE DATABASE IF NOT EXISTS {args.database}")
         session.catalog.setCurrentDatabase(args.database)
@@ -311,5 +311,11 @@ if __name__ == "__main__":
         help='the name of a database to use instead of `default`, currently applies only to Hive',
         default="default"
     )
+    parser.add_argument(
+        '--app_name',
+        help='The name of the application. If not specified, the default name will be "NDS - Transcode CSV"',
+        default="NDS - Transcode CSV"
+    )
+    
     args = parser.parse_args()
     transcode(args)
